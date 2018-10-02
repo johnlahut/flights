@@ -1,0 +1,8 @@
+﻿  fileconverter.c
+c:\users\super\desktop\flights-master\fileconverter.c(72): warning C4018: '<': signed/unsigned mismatch
+c:\users\super\desktop\flights-master\fileconverter.c(173): warning C4018: '<': signed/unsigned mismatch
+  main.c
+  utils.c
+c:\users\super\desktop\flights-master\utils.c(26): warning C4013: 'strlen' undefined; assuming extern returning int
+  Generating Code...
+  Flights_WinConsole.vcxproj -> C:\Users\super\Desktop\flights-master\Flights_WinConsole\Debug\Flights_WinConsole.exe
