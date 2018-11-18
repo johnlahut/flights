@@ -87,7 +87,8 @@ void insert(Flight, FlightHash*);
 void retrieve(char*, FlightHash*, node*);
 void hash(char*, int*);
 void init_hash(FlightHash*);
-void hash_print(FlightHash*);
+void hash_print(FlightHash*, bool doEmpty);
+void FlightsInAirlineFile(char file[], char* airport, int c);
 
 /*****  indexer.c Prototypes  *****/
 void read_files(char*);
@@ -97,6 +98,7 @@ void print_stack();
 unsigned long airport_hash(char*);
 void write_file(char* filename);
 /*****  srchindx.c Prototypes  *****/
+void search_flights(char* airport);
 
 /*****  create.c Prototypes  *****/
 

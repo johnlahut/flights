@@ -45,13 +45,17 @@ void convert(char *str, FlightArray *flightArray) {
 	// loop through string, adding chars to buffer
 	// if \n is encountered, convert the string to a flight and add to array
 	// will be one left over at end of reading
-	for (int i=0; i<strlen(raw_flights); i++) {
-		if (raw_flights[i] == '\n') {
-			f = flightFromStr(buff);
-			add(f, flightArray);
-			memset(buff, 0, sizeof(buff));
-			buff_c = 0;
-		} else {
+	for (int i = 0; i < strlen(raw_flights); i++) {
+		if (raw_flights[i] == '\n' || raw_flights[i] == '\r') {
+			if (buff_c > 0) {
+				buff[buff_c] = '\0';
+				f = flightFromStr(buff);
+				add(f, flightArray);
+				memset(buff, 0, sizeof(buff));
+				buff_c = 0;
+			}
+		}
+		else {
 			buff[buff_c] = raw_flights[i];
 			buff_c++;
 		}
