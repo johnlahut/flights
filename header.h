@@ -95,7 +95,6 @@ void init_indexer();
 void init_table();
 void print_stack();
 unsigned long airport_hash(char*);
-void print_table();
 void write_file(char* filename);
 /*****  srchindx.c Prototypes  *****/
 

@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -g
-OBJECTS = main.o list.o fileconverter.o utils.o array.o hash.o indexer.o
+OBJECTS = main.o list.o fileconverter.o utils.o array.o hash.o indexer.o create.o
 OUT_FILES = AA.txt DL.txt F.txt OO.txt
 
 test: $(OBJECTS)
