@@ -183,7 +183,6 @@ void expand_table(AirportTable* old, AirportTable* new) {
     for (int i=0; i<old->size; i++){
         for(int j=0; j<old->table[i].filenames.size; j++){
             add_airport(old->table[i].airport, old->table[i].filenames.data[j].filename, new, true, old->table[i].filenames.data[j].hits);
-            printf("%s %s %d\n", old->table[i].airport, old->table[i].filenames.data[j].filename, old->table[i].filenames.data[j].hits);
         }
     }
 

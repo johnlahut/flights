@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
 	// sort and output text files
 	sort(&flightArray);
-	// createFiles(&flightArray, "");
+	createFiles(&flightArray, "");
 	
 	printf("Capacity: %d Size: %d\n", flightArray.capacity, flightArray.size);
 
@@ -41,11 +41,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// print data structures
-<<<<<<< HEAD
-	// hash_print(&flightHash);
-=======
 	hash_print(&flightHash, false);
->>>>>>> 08a83e13850ed7a5f61c3bda719eee08c44e4816
 	// printFlights(&flightArray);
 	
 	// tear down
@@ -61,15 +57,10 @@ int main(int argc, char* argv[]) {
 	
 	write_file("invind.txt");
 
-<<<<<<< HEAD
-=======
-	print_table();
-
-	//search_flights("ORD");
-	//search_flights("PLN");
+	search_flights("ORD");
+	search_flights("PLN");
 	search_flights("DTW");
 
->>>>>>> 08a83e13850ed7a5f61c3bda719eee08c44e4816
 	printf("Normal end.\n");
 
 }

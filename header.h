@@ -1,5 +1,7 @@
 #include <stdbool.h>
+#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_FLIGHT_CODE 7
 #define MAX_AIRLINE_CODE 4
