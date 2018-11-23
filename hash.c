@@ -71,7 +71,7 @@ void hash(char* hash_string, int* key) {
 @args:	  		*ht: FlightHash hashtable
 @assumptions: 	*ht has been initialized			
 */
-void hash_print(FlightHash *ht, bool doEmpty) {
+void hash_print(FlightHash *ht) {
     for(int i=0; i<HASH_SIZE; i++) {
         
         if(ht->table[i]->data == NULL) {

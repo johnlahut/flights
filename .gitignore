@@ -7,3 +7,7 @@ playground/*
 .vscode/*
 .DS_Store
 final-project/*
+*.DSYM/
+fileconverter
+indexer
+naiveinterface
