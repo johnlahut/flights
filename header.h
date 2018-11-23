@@ -65,13 +65,10 @@ struct airlineHash;
 
 /*****  Typing Definitions  *****/
 
+// public functions - used in some way by other files/programs
 
 /*****  fileconverter.c Prototypes  *****/
-
-void generate_file(const char[], int);
 void convert(char*, FlightArray*);
-char* convertBinaryStringFile(const char*);
-Flight flightFromStr(char*);
 void createFiles(FlightArray*, char*);
 
 /*****  list.c Prototypes  *****/
@@ -91,11 +88,10 @@ void createFiles(FlightArray*, char*);
 
 /*****  indexer.c Prototypes  *****/
 void read_files(char*);
-void init_indexer();
 void init_table();
-void print_stack();
-unsigned long airport_hash(char*);
 void write_file(const char* filename);
+void destroy_table();
+
 /*****  srchindx.c Prototypes  *****/
 
 // /*****  create.c Prototypes  *****/

@@ -20,6 +20,9 @@ Project: CSI402 Final Project
 // -- private functions --
 void add_zero_buffer(char*, int);
 Flight flightFromStr(char*);
+void generate_file(const char[], int);
+char* convertBinaryStringFile(const char*);
+Flight flightFromStr(char*);
 
 
 /*

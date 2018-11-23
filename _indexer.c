@@ -361,3 +361,7 @@ void sort_hits() {
 bool is_full(AirportTable* table){
     return (table->size >= table->capacity); 
 }
+
+void destroy_table() {
+    free(table.table);
+}

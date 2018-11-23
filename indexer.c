@@ -97,6 +97,8 @@ int main(int argc, char const *argv[])
             closedir(dp);
         }
         write_file(file_name);
+        destroy_table();
+
     }
     return 0;
 }
