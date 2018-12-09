@@ -1,7 +1,5 @@
 #include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #define MAX_FLIGHT_CODE 7
 #define MAX_AIRLINE_CODE 4
@@ -67,42 +65,36 @@ struct airlineHash;
 
 /*****  Typing Definitions  *****/
 
+// public functions - used in some way by other files/programs
 
 /*****  fileconverter.c Prototypes  *****/
-
-void generate_file(const char[], int);
 void convert(char*, FlightArray*);
-char* convertBinaryStringFile(const char*);
-Flight flightFromStr(char*);
 void createFiles(FlightArray*, char*);
 
 /*****  list.c Prototypes  *****/
-void push(Flight, node*, int*);
-node* new(Flight);
-int numFlights();
-Sentinel newList();
-// void swap(node*, node*, Sentinel);
-void printReverse(Sentinel);
+// void push(Flight, node*, int*);
+// node* new(Flight);
+// int numFlights();
+// Sentinel newList();
+// // void swap(node*, node*, Sentinel);
+// void printReverse(Sentinel);
 
-/*****  hash.c Prototypes  *****/
-void insert(Flight, FlightHash*);
-void retrieve(char*, FlightHash*, node*);
-void hash(char*, int*);
-void init_hash(FlightHash*);
-void hash_print(FlightHash*, bool doEmpty);
-void FlightsInAirlineFile(char file[], char* airport, int c);
+// /*****  hash.c Prototypes  *****/
+// void insert(Flight, FlightHash*);
+// void retrieve(char*, FlightHash*, node*);
+// void hash(char*, int*);
+// void init_hash(FlightHash*);
+// void hash_print(FlightHash*);
 
 /*****  indexer.c Prototypes  *****/
 void read_files(char*);
-void init_indexer();
 void init_table();
-void print_stack();
-unsigned long airport_hash(char*);
-void write_file(char* filename);
-/*****  srchindx.c Prototypes  *****/
-void search_flights(char* airport);
+void write_file(const char* filename);
+void destroy_table();
 
-/*****  create.c Prototypes  *****/
+/*****  srchindx.c Prototypes  *****/
+
+// /*****  create.c Prototypes  *****/
 
 /*****  utils.c Prototypes  *****/
 void print_flight(Flight);

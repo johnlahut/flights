@@ -19,7 +19,6 @@ Project: CSI402 Final Project
 
 
 int main(int argc, char* argv[]) {
-
 	// data structs
 	FlightArray flightArray;
 	FlightHash flightHash;
@@ -31,7 +30,7 @@ int main(int argc, char* argv[]) {
 
 	// sort and output text files
 	sort(&flightArray);
-	createFiles(&flightArray, "");
+	// createFiles(&flightArray, "");
 	
 	printf("Capacity: %d Size: %d\n", flightArray.capacity, flightArray.size);
 
@@ -41,7 +40,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// print data structures
-	hash_print(&flightHash, false);
+	// hash_print(&flightHash);
 	// printFlights(&flightArray);
 	
 	// tear down
@@ -56,10 +55,6 @@ int main(int argc, char* argv[]) {
 
 	
 	write_file("invind.txt");
-
-	search_flights("ORD");
-	search_flights("PLN");
-	search_flights("DTW");
 
 	printf("Normal end.\n");
 
