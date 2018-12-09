@@ -22,8 +22,8 @@ struct flight {
 } typedef Flight;
 
 struct node {
-    struct flight f;
-    struct node *next;
+	struct flight f;
+	struct node *next;
 } typedef node;
 
 // probably will not be used, old logic 
@@ -72,18 +72,18 @@ void convert(char*, FlightArray*);
 void createFiles(FlightArray*, char*);
 
 /*****  list.c Prototypes  *****/
-// void push(Flight, node*, int*);
-// node* new(Flight);
+void push(Flight, node*, int*);
+node* new(Flight);
 // int numFlights();
 // Sentinel newList();
 // // void swap(node*, node*, Sentinel);
 // void printReverse(Sentinel);
 
 // /*****  hash.c Prototypes  *****/
-// void insert(Flight, FlightHash*);
-// void retrieve(char*, FlightHash*, node*);
+void insert(Flight, FlightHash*);
+bool retrieve(char*, FlightHash*, node*);
 // void hash(char*, int*);
-// void init_hash(FlightHash*);
+void init_hash(FlightHash*);
 // void hash_print(FlightHash*);
 
 /*****  indexer.c Prototypes  *****/
@@ -107,7 +107,10 @@ void check_file(FILE*, char*);
 
 /*****  array.c Prototypes  *****/
 void init_array(FlightArray*);
-void add(Flight , FlightArray*);
+void add(Flight, FlightArray*);
 Flight get(int, FlightArray*);
 void sort(FlightArray*);
 void destroy(FlightArray*);
+
+
+Flight flightFromStr(char*);
