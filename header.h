@@ -1,5 +1,7 @@
 #include <stdbool.h>
+#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_FLIGHT_CODE 7
 #define MAX_AIRLINE_CODE 4
@@ -96,7 +98,6 @@ void init_indexer();
 void init_table();
 void print_stack();
 unsigned long airport_hash(char*);
-void print_table();
 void write_file(char* filename);
 /*****  srchindx.c Prototypes  *****/
 void search_flights(char* airport);

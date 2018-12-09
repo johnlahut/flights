@@ -6,3 +6,4 @@ playground/*
 *.gch
 .vscode/*
 .DS_Store
+final-project/*
