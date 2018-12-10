@@ -1,66 +1,75 @@
 #include "header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+// Author: Jason Deacutis
+
+// Prints linked list in minimal format
 void print_list(node* list) {
 	do {
 		Flight flight = list->f;
 		printf("%s %s %s %s\n", flight.f_code, flight.origin, flight.dest, flight.timestamp);
 
-		if (list->next == NULL) break;
-		list = list->next;
+		if (list->next == NULL) break;// end of list found
+		list = list->next;// get next node
 	} while (true);
 }
 
+// Binary Search Tree Node, airport is linked list of all flights at that destination airport
 struct BST_Node {
 	struct node* airport;
 	struct BST_Node* less;
 	struct BST_Node* greater;
 } typedef BST_Node;
 
-void init_bst(BST_Node* bst) {
+// Set BST Node to null pointers
+void init_bst_node(BST_Node* bst) {
 	bst->airport = NULL;
 	bst->less = NULL;
 	bst->greater = NULL;
 }
+// Allocate memory for a BST Node and set null pointers
 BST_Node* new_bst_node() {
 	BST_Node* n = malloc(sizeof(BST_Node));
-	init_bst(n);
+	init_bst_node(n);
 	return n;
 }
+// Add flight to BST Node's airport list
 void bst_insert(Flight f, BST_Node* bst) {
 	node* airport = bst->airport;
 
-	if (airport == NULL) {
-		airport = new(f);
-		bst->airport = airport;
+	if (airport == NULL) {// Node has no airports yet
+		bst->airport = new(f);// create new linked list node using flight and add to BST Node
 	}
 	else {
-		int cmp = strcmp(f.dest, airport->f.dest);
-		if (cmp < 0) {// less
-			if (bst->less == NULL) bst->less = new_bst_node();
-			bst_insert(f, bst->less);
+		int cmp = strcmp(f.dest, airport->f.dest);// compare flight destination to existing airport destination
+		if (cmp < 0) {// less, navigate left in BST
+			if (bst->less == NULL) bst->less = new_bst_node();// create new node if none exists
+			bst_insert(f, bst->less);// recursively add flight to this side of the tree
 		}
-		else if (cmp > 0) {// greater
-			if (bst->greater == NULL) bst->greater = new_bst_node();
-			bst_insert(f, bst->greater);
+		else if (cmp > 0) {// greater, navigate right in BST
+			if (bst->greater == NULL) bst->greater = new_bst_node();// create new node if none exists
+			bst_insert(f, bst->greater);// recursively add flight to this side of the tree
 		}
-		else {// ==
+		else {// ==, add flight to airport list
 			int c = 0;
-			push(f, airport, &c);
+			push(f, airport, &c);// append to end of this BST Node's airport linked list
 		}
 	}
 }
+// Search BST for airports with destination, returns true if found and points to list of flights
 bool bst_search(char* dest, BST_Node* bst, node* list) {
-	if (bst == NULL) return false;
+	if (bst == NULL) return false;// end of tree, not found
 	node* airport = bst->airport;
-	if (airport == NULL) return false;
-	int cmp = strcmp(dest, airport->f.dest);
-	if (cmp < 0) {// less
-		return bst_search(dest, bst->less, list);
-	}
-	else if (cmp > 0) {// greater
-		return bst_search(dest, bst->greater, list);
-	}
-	else {// ==
+	if (airport == NULL) return false;// end of tree, not found
+
+	int cmp = strcmp(dest, airport->f.dest);// compare to navigate BST
+	if (cmp < 0) // less
+		return bst_search(dest, bst->less, list);// recursive search
+	else if (cmp > 0) // greater
+		return bst_search(dest, bst->greater, list);// recursive search
+	else {// ==, found airports
 		*list = *airport;
 		return true;
 	}
@@ -68,9 +77,9 @@ bool bst_search(char* dest, BST_Node* bst, node* list) {
 
 void FlightsInAirlineFile(char* file, char* airport, int c, bool origin, FlightHash* ht, BST_Node* bst) {
 	FILE *fp = fopen(file, "r");
-	//printf("Searching %s with %d %s flights\n", file, c, airport);
 
 	if (fp == NULL) {
+		printf("Searching %s with %d %s flights\n", file, c, airport);
 		perror("FlightsInAirlineFile error");
 		return;
 	}
@@ -162,28 +171,30 @@ void FlightsInAirlineFile(char* file, char* airport, int c, bool origin, FlightH
 void search_flights(char* airport, char* indexFile, char* path, bool origin) {
 	//printf("Searching for flights with %s airport: %s\n", origin ? "origin" : "destination", airport);
 
-	FILE *fp = fopen(indexFile, "r");
-	//printf("search_flights: opening %s\n", indexFile);
+	// Add path to beginning of index file name
+	int pathLen = strlen(path);
+	char* indexFull = malloc(sizeof(char)*(pathLen + strlen(indexFile) + 2));
+	strcpy(indexFull, path);
+	if (pathLen > 0) strcat(indexFull, "/");
+	strcat(indexFull, indexFile);
+
+	FILE *fp = fopen(indexFull, "r");
 
 	if (fp == NULL) {
-		printf("search_flights: opening %s\n", indexFile);
+		printf("search_flights: opening %s\n", indexFull);
 		perror("search_flights error");
 		return;
 	}
 
 	FlightHash ht;
 	BST_Node bst;
-	if (origin) init_hash(&ht);
-	else init_bst(&bst);
+	if (origin) init_hash(&ht);// init hashtable
+	else init_bst_node(&bst);// int BST
 
-	char buf[16] = "", file[16] = "";
-	int i = 0;
+	char buf[16] = "", file[64] = "";
+	int i = 0, srchState = 0;
 
-	bool srchForList = false, beginAirportSearch = false, searchForAirport = false;
-	int srchState = 0, pathLen = strlen(path);
-	bool pathFound;
-
-	while (!feof(fp)) {
+	while (!feof(fp)) {// parse file per character
 		buf[i] = fgetc(fp);
 
 		if (srchState == 0) {// find <list> beginning
@@ -225,31 +236,20 @@ void search_flights(char* airport, char* indexFile, char* path, bool origin) {
 		else if (srchState == 4) {// find airline file beginning
 			if (buf[0] != ' ' && buf[0] != '\\' && buf[0] != '\t' && buf[0] != '\n' && buf[0] != '\r') {
 				srchState = 5;
-				pathFound = pathLen == 0;
+				//pathFound = pathLen == 0;
 				i++;
 			}
 		}
 		else if (srchState == 5) {// parse airline file name
 			if (buf[i] == ' ') {
-				if (pathFound) {
-					buf[i] = '\0';
-					strcpy(file, buf);
-					srchState = 6;
-				}
-				else srchState = 0;
-				i = 0;
-			}
-			else if (!pathFound && (buf[i] == '/' || buf[i] == '\\')) {// check path
 				buf[i] = '\0';
-				if (!strcmp(buf, path)) {// path found
-					pathFound = true;
-					buf[i] = '/';
-					i++;
-				}
-				else {
-					srchState = 0;
-					i = 0;
-				}
+
+				// Add path to beginning of file path
+				strcpy(file, path);
+				if (pathLen > 0) strcat(file, "/");
+				strcat(file, buf);
+				srchState = 6;
+				i = 0;
 			}
 			else if (buf[i] == '\n') {
 				srchState = -1;
@@ -274,24 +274,16 @@ void search_flights(char* airport, char* indexFile, char* path, bool origin) {
 		//printf("Airport %s not found\n", airport);
 	}
 
-	if (origin) {
+	// Print list of flights
+	if (origin) {// origin flights
 		node list;
-		if (retrieve(airport, &ht, &list)) {
+		if (retrieve(airport, &ht, &list))
 			print_list(&list);
-			/*do {
-				Flight flight = list.f;
-				printf("%s %s %s %s\n", flight.f_code, flight.origin, flight.dest, flight.timestamp);
-
-				if (list.next == NULL) break;
-				list = *list.next;
-			} while (true);*/
-		}
 	}
-	else {
+	else {// destination flights
 		node list;
-		if (bst_search(airport, &bst, &list)) {
+		if (bst_search(airport, &bst, &list))
 			print_list(&list);
-		}
 	}
 
 	fclose(fp);
@@ -304,28 +296,27 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	char* flag = argv[1];
+	char* flag = argv[1];// -o|-d
 	bool origin = false;
 
 	if (!strcmp(flag, "-o")) origin = true;
 	else if (!strcmp(flag, "-d")) origin = false;
 
-	char* indexFile = "invind.txt";
+	char* indexFile = "invind.txt";// default index file
 	if (argc >= 4) indexFile = argv[3];
-	char* path = "";
+	char* path = "";// default path
 	if (argc >= 5) path = argv[4];
 
 	char* terms = argv[2];
 	char airport[4] = "";
 	int j = 0, len = strlen(terms);
-	for (int i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {// parse terms per character
 		char c = terms[i];
 		bool delim = c == ';';
 		if (!delim) airport[j++] = c;
-		if (delim || i == len - 1) {
+		if (delim || i == len - 1) {// end of term reached
 			j = 0;
-			//printf("%s\n", airport);
-			search_flights(airport, indexFile, path, origin);
+			search_flights(airport, indexFile, path, origin);// search for term
 		}
 	}
 }
