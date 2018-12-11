@@ -9,7 +9,6 @@
 #include "fcntl.h"
 #include "ftw.h"
 
-#define CMD_LEN    48
 #define MAX_CMDS   10
 #define MAX_INPUT 256
 
@@ -19,7 +18,7 @@ void get_cmds(int, char**, char**);
 void free_cmds(char**);
 void exec_prog(char*, char**, int, char*);
 static int delete(const char *name, const struct stat *status, int type);
-char* getLine(FILE* stream);
+
 
 
 int main(int argc, char const *argv[])
@@ -245,13 +244,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-//reads a line from a file, used for the script file
-char* getLine(FILE* stream) {
 
-    char* line = malloc(CMD_LEN);
-    fscanf(stream, "%[^\n]%*c", line);
-    return line;
-}
 
 //mallocs the commands array
 void init_cmd_arr(char** cmds) {

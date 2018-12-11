@@ -5,7 +5,7 @@ all: fileconverter naiveinterface indexer create srchindx
 fileconverter: fileconverter.c
 	$(CC) fileconverter.c _fileconverter.c utils.c array.c $(CFLAGS) fileconverter
 naiveinterface: interfaceFunctions.c
-	$(CC) interfaceFunctions.c $(CFLAGS) naiveinterface
+	$(CC) interfaceFunctions.c input.c $(CFLAGS) naiveinterface
 indexer: indexer.c
 	$(CC) indexer.c _indexer.c $(CFLAGS) indexer
 create: create.c

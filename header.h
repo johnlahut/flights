@@ -19,6 +19,7 @@ Project: CSI402 Final Project
 
 #define INIT_ARRAY_SIZE 4
 #define HASH_SIZE 50
+#define CMD_LEN    48
 
 
 
@@ -120,6 +121,7 @@ void add(Flight, FlightArray*);
 Flight get(int, FlightArray*);
 void sort(FlightArray*);
 void destroy(FlightArray*);
-
-
 Flight flightFromStr(char*);
+
+/*****  input.c Prototypes  *****/
+char* getLine(FILE* stream);
