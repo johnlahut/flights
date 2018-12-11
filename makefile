@@ -1,21 +1,16 @@
-CC = gcc
-CFLAGS = -g
-# FILECONV_OBJECTS = fileconverter.c utils.c array.c _fileconverter.c
-OBJECTS = main.o list.o fileconverter.o utils.o array.o hash.o indexer.o create.o
-OUT_FILES = AA.txt DL.txt F.txt OO.txt
-
-test: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS)
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
+CC = gcc -std=gnu99
+CFLAGS = -o
+CDEBUG = -g -o
+all: fileconverter naiveinterface indexer create srchindx
+fileconverter: fileconverter.c
+	$(CC) fileconverter.c _fileconverter.c utils.c array.c $(CFLAGS) fileconverter
+naiveinterface: interfaceFunctions.c
+	$(CC) interfaceFunctions.c $(CFLAGS) naiveinterface
+indexer: indexer.c
+	$(CC) indexer.c _indexer.c $(CFLAGS) indexer
+create: create.c
+	$(CC) create.c $(CFLAGS)create
+srchindx: srchindx.c
+	$(CC) srchindx.c hash.c list.c array.c utils.c _fileconverter.c $(CFLAGS) srchindx
 clean:
 	rm -f *.o core
-cleanoutput: # clean up .txt files
-	rm -f $(OUT_FILES)
-superclean: # WARNING: REMOVES ALL .txt FILES
-	rm -f *.o *.txt core a.out
-
-# fileconv: %(FILECONV_OBJECTS)
-# 	$(CC) $(CFLAGS) $(FILECONV_OBJECTS) -o fileconverter
-# %.o: %.c
-# 	$(CC) $(CFLAGS) -c $<

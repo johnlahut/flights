@@ -1,8 +1,6 @@
 /*
 Authors:
 	John Lahut
-	James Bohrer
-	Jason Deacutis
 Date: 9.09.2018
 Filename: list.c
 Purpose: Create a singly linked list to store flight data.
@@ -13,14 +11,12 @@ Project: CSI402 Final Project
 #include <stdlib.h>
 
 #include "header.h"
-
-// TODO: Write free() functions for the linked lists.
-
 /*
 @purpose: 		add a Flight to the list
 @args:	  		f is a valid Flight
 @assumptions: 	f, c have been instantiated
                 head points to the first element in a linked list, and is not null
+@author: John Lahut
 */
 void push(Flight f, node* head, int* c) {
 
@@ -36,6 +32,7 @@ void push(Flight f, node* head, int* c) {
 /*
 @purpose: 		return a new allocated node
 @args:	  		f is a valid Flight
+@author: John Lahut
 */
 node* new(Flight f) {
     node* n = (node*)malloc(sizeof(node));
@@ -54,6 +51,7 @@ node* new(Flight f) {
 @purpose: 		return number of flights
 @args:	  		s is a valid sentinel
 @assumptions: 	s has at least one element in it
+@author: John Lahut
 */
 int numFlights(Sentinel s) {
     return s->key;
@@ -61,6 +59,7 @@ int numFlights(Sentinel s) {
 
 /*
 @purpose: 		returns a new sentinel to the caller
+@author: John Lahut
 */
 Sentinel newList() {
     Sentinel s = (Sentinel)malloc(sizeof(struct sentinel));

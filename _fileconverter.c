@@ -1,10 +1,9 @@
 /*
 Authors:
 	John Lahut
-	James Bohrer
 	Jason Deacutis
 Date: 9.30.2018
-Filename: fileconverter.c
+Filename: _fileconverter.c
 Purpose: Given a binary file of flight data, create .txt files for each airline, and           
 store them in appropriate directories. Can generate the binary files for testing purposes.
 Implements list data structure to store flights while being read from file
@@ -14,7 +13,9 @@ Project: CSI402 Final Project
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "header.h" 
 
 // -- private functions --
@@ -30,9 +31,7 @@ Flight flightFromStr(char*);
 @args:	  		str: filename that contains the flight data
 				flightArray: initalized flightarray
 @assumptions: 	flightArray has been initialized
-
-@todo: 			- create directories
-				- error checking
+@author: John Lahut
 */
 void convert(char *str, FlightArray *flightArray) {
 
@@ -65,9 +64,12 @@ void convert(char *str, FlightArray *flightArray) {
 	add(f, flightArray);
 }
 
-// this is just a proof of concept function for testing
-// files will need to be created by the create program which hasn't been written yet
-// it is assumed that dir is checked prior to this function call
+/*
+@purpose: 		creates the files for a flight array
+				flightArray: initalized flightarray
+@assumptions: 	flightArray has been initialized
+@author: John Lahut
+*/
 void createFiles(FlightArray *flightArray, char* dir) {
 	
 	char code[MAX_FLIGHT_CODE];
@@ -87,7 +89,24 @@ void createFiles(FlightArray *flightArray, char* dir) {
 		if (strcmp(path, "") != 0) strcat(path, "/");
 		strcat(path, filename);
 
-		FILE *fp = fopen(path, "a+");
+		// try and open the file as read only (checking for existence)
+		FILE *fp = fopen(path, "r");
+
+		// file not found, call create to make the file
+		if (fp == NULL) {
+			pid_t proc = fork();
+			int status;
+
+			// on child, call create
+			if (proc == 0) {
+				execl("create", "", "-f", path, NULL);
+			}
+			waitpid(proc, &status, 0);
+		}
+		else fclose(fp);
+
+		fp = fopen(path, "a+");
+		
 
 		fprintf(fp, "%s %s %s %s\n",  f.f_code, f.origin, f.dest, f.timestamp);
 		fclose(fp);
@@ -101,6 +120,7 @@ void createFiles(FlightArray *flightArray, char* dir) {
 @assumptions: 	str is a valid repr. of a Flight
 
 @todo: 			maybe error checking? flight string should be valid when entering this function
+@author: Jason Deacutis
 */
 Flight flightFromStr(char* str) {
     Flight f;
@@ -150,6 +170,7 @@ Flight flightFromStr(char* str) {
 @args:	  		char* filename: valid .bin file repr. flights
 @return:  		raw string data from converted binary file
 @assumptions: 	filename is a valid binary file
+@author: Jason Deacutis
 */
 char* convertBinaryStringFile(const char* filename) {
 	FILE *fp = fopen(filename, "r");
@@ -250,6 +271,7 @@ void convertStr(char* str, Flight arr[], int count) {
 	}
 }
 
+// @author: John Lahut
 void generate_file(const char filename[], int count) {
 	const char *sample_airports[10] = { "AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ" };
 	const char *sample_airlines[10] = { "ZZ", "YY", "XX", "WW", "VV", "UU", "TT", "SS", "RR", "QQ" };
@@ -306,6 +328,7 @@ void generate_file(const char filename[], int count) {
 	fclose(fp_bin);
 }
 
+// @author: John Lahut
 void add_zero_buffer(char* str, int buff) {
 	if (strlen(str) < buff) {
 		char temp = str[0];

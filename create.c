@@ -1,8 +1,6 @@
 /*
 Authors:
-	John Lahut
 	James Bohrer
-	Jason Deacutis
 Date: 11.3.2018
 Filename: create.c
 Purpose: Creates files, directories, and links.
@@ -24,6 +22,7 @@ void make_dir(char**);
 void make_hard_link(char**, char**);
 void make_soft_link(char**, char**);
 
+// @author: James Bohrer
 int main(int argc, char* argv[])
 {
     if(argc < 3 || argc > 4)
@@ -65,6 +64,7 @@ int main(int argc, char* argv[])
 }
 
 //creates a new file with specified pathname and 0640 permissions.
+// @author: James Bohrer
 void make_file(char **path)
 {
     FILE *fp;
@@ -79,6 +79,7 @@ void make_file(char **path)
 }
 
 //creates a directory at given pathname with 0750 permissions.
+// @author: James Bohrer
 void make_dir(char **path)
 {
     if(mkdir(*path, 0750) == -1)
@@ -88,6 +89,7 @@ void make_dir(char **path)
 }
 
 //creates a hard link new to old.
+// @author: James Bohrer
 void make_hard_link(char **old, char **new)
 {
     if(link(*old, *new) == -1)
@@ -97,6 +99,7 @@ void make_hard_link(char **old, char **new)
 }
 
 //creates a soft link new to old.
+// @author: James Bohrer
 void make_soft_link(char **old, char **new)
 {
     if(symlink(*old, *new) == -1)

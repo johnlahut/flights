@@ -23,6 +23,7 @@ extern node* head;
 				int upper: upper bound
 @return:  		int: random number
 @assumptions: 	N/A
+@author: John Lahut
 */
 int random_range(int lower, int upper) {
 	return (rand() % (upper - lower + 1)) + lower;
@@ -31,7 +32,8 @@ int random_range(int lower, int upper) {
 /*
 @purpose: 		prints a flight	
 @args:	  		flight: valid Flight struct
-@assumptions: 	flight has been instantiated and populated	
+@assumptions: 	flight has been instantiated and populated
+@author: John Lahut	
 */
 void print_flight(Flight flight) {
 	printf("Flight Code: %s | Origin Airport: %s | Destination Airport: %s | Departure Date: %s\n",
@@ -40,6 +42,7 @@ void print_flight(Flight flight) {
 
 /*
 @purpose: 		converts a string to a binary string
+@author: Jason Deacutis
 */
 char* strToBinStr(char *s) {
 	int len = strlen(s), binLen = len * CHAR_BIT;
@@ -64,6 +67,7 @@ char* strToBinStr(char *s) {
 
 /*
 @purpose: 		converts a binary string to a string	
+@author: Jason Deacutis
 */
 char* binStrToStr(char *bin) {
 	int len = strlen(bin), strLen = len / CHAR_BIT;
@@ -97,6 +101,7 @@ char* binStrToStr(char *bin) {
 @purpose: 		prints all flights in a given flight array
 @args:	  		*s: valid flight array
 @assumptions: 	*s: has been instantiated
+@author: Jason Deacutis
 */
 void printFlights(FlightArray *s) {
 	for(int i=0; i<s->size; i++) {
@@ -109,6 +114,7 @@ void printFlights(FlightArray *s) {
 @args:	  		f: a valid flight
 				code: string to return to caller
 @assumptions: 	code is at least size of 5, f is a valid flight
+@author: John Lahut
 */
 void getFlightCode(Flight f, char code[]) {
 	int i = 0;
@@ -120,6 +126,7 @@ void getFlightCode(Flight f, char code[]) {
 	code[i] = '\0';
 }
 
+// @author: Jason Deacutis
 void check_file(FILE* fp, char* prog) {
 	if (fp == NULL) {
 		perror(prog);

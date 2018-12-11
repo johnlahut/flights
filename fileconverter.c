@@ -1,9 +1,24 @@
+/*
+Authors:
+	John Lahut
+Date: 9.30.2018
+Filename: fileconverter.c
+Project: CSI402 Final Project
+Purpose: Main entry point of program
+*/
 #include "header.h"
 #include <stdlib.h>
 #include <dirent.h>
 #include <string.h>
 
 
+/*
+@purpose: 		converts a binary file of flights to a flightarray
+@args:	  		str: filename that contains the flight data
+				flightArray: initalized flightarray
+@assumptions: 	flightArray has been initialized
+@author: John Lahut
+*/
 int main(int argc, char* argv[]) {
 
 	DIR *dp;

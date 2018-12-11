@@ -1,3 +1,13 @@
+/*
+Authors:
+	John Lahut
+    James Bohrer
+Date: 9.30.2018
+Filename: interfaceFunctions.c
+Purpose: Main entry point of program
+Project: CSI402 Final Project
+*/
+
 #include "header.h"
 #include <stdio.h>
 #include <dirent.h>
@@ -5,6 +15,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/*
+@purpose: 		main entry point of program
+@author: John Lahut
+*/
 int main(int argc, char const *argv[])
 {
     

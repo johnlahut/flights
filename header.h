@@ -1,3 +1,12 @@
+/*
+Authors:
+	John Lahut
+	Jason Deacutis
+	James Bohrer
+Date: 9.30.2018
+Filename: header.c
+Project: CSI402 Final Project
+*/
 #include <stdbool.h>
 #include <stdio.h>
 
